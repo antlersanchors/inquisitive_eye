@@ -22,8 +22,7 @@
 #define topTravelHigh 50 //how far should it increment in one move?
 #define topTravelLow -50
 
-#define potTop A0 //just for manual control
-#define potBottom A1
+#define potPin A0
 
 
 // ------- LED VARIABLES ---------
@@ -88,6 +87,7 @@ void setup() {
 }
 
 void loop() {
+	checkPot();
 
 	switch (currentState){
 		case 1: //inquisitiveness triggered!
@@ -103,12 +103,17 @@ void loop() {
 			break;
 	}
 }
-void ledTest() {
-	analogWrite(redLEDPin, red);
-	analogWrite(greenLEDPin, green);
-	analogWrite(blueLEDPin, blue);
 
+void checkPot(){
+	int sensorVal = analogRead(potPin);
+	
+	if (sensorVal < 50){
+		currentState = 0;
+	} else {
+		currentState = 1;
+	}
 }
+
 
 void gentlePulsate(){
 
@@ -142,6 +147,13 @@ void focusFlash(){
 	analogWrite(redLEDPin, red);
 	analogWrite(greenLEDPin, green);
 	analogWrite(blueLEDPin, blue);
+}
+
+void ledTest() {
+	analogWrite(redLEDPin, red);
+	analogWrite(greenLEDPin, green);
+	analogWrite(blueLEDPin, blue);
+
 }
 
 void move(){
