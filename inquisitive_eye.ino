@@ -28,6 +28,8 @@ long prevTime;
 int moveDuration;
 int bottomState;
 
+int newTopPos;
+
 Servo servoTop;
 Servo servoBottom;
 
@@ -40,16 +42,20 @@ void setup() {
   Serial.begin(9600);
 
   prevTime = millis();
-  randomSeed(analogRead(A5); //initialize our random num generator with noise from the pin!
+  randomSeed(analogRead(A5)); //initialize our random num generator with noise from the pin!
   moveDuration = int(random(moveLow,moveHigh)); //initialize move duration
 
-  bottomState = 
+  newTopPos = 0;
+
+  bottomState = servoBottomStop; //start off still
+  servoBottom.write(bottomState);
+  servoTop.write(servoTopLow);
 
 }
 
 void loop() {
 
-	switch (value){
+	switch (0){
 		case 1: //inquisitiveness triggered!
 			fixate();
 			break;
@@ -58,17 +64,18 @@ void loop() {
 			move();
 			break;
 	}
-   
 }
 
 void move(){
 	currentTime = millis();
 
 	if (currentTime - prevTime <= moveDuration) { //have we finished the move yet?
+		servoTop.write(newTopPos);
 
 
 	} else { 
 		moveDuration = int(random(moveLow,moveHigh)); //new duration of the next move sequence
+		newTopPos = int(random(servoTopLow, servoTopHigh));
 		prevTime = millis();
 
 	}
