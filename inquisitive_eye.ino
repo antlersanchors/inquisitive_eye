@@ -13,7 +13,7 @@
 #define servoBottomLeft 86
 
 #define moveLow 800 //lower and upper limits for move duration
-#define moveHigh 1500
+#define moveHigh 2500
 
 #define fixateLow 2500 //lower and upper limits for staring duration
 #define fixateHigh 4000
