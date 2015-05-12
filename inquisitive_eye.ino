@@ -15,8 +15,8 @@
 #define moveLow 100 //lower and upper limits for move duration
 #define moveHigh 800
 
-#define fixateLow 1500 //lower and upper limits for staring duration
-#define fixateHigh 3000
+#define fixateLow 2500 //lower and upper limits for staring duration
+#define fixateHigh 4000
 #define fixatePhase 600
 
 #define topTravelHigh 50 //how far should it increment in one move?
@@ -55,7 +55,7 @@ void setup() {
 
   newTopPos = 0;
 
-  currentState = 1;
+  currentState = 0;
   fixateState = 0;
 
   fixateDuration = int(random(fixateLow, fixateHigh));
@@ -105,25 +105,18 @@ void fixate(){
 	switch (fixateState){
 		case 0: //pick a point to fixate on!
 			newTopPos = int(random(servoTopLow, servoTopHigh));
-			servoTop.write(newTopPos);
 			fixateState = 1;
-			prevTime = millis();
 			break;
 		case 1: //move around that point!
-			servoTop.write(newTopPos + 50);
-			if ((currentTime - prevTime) % fixatePhase == 1){
+			servoTop.write(newTopPos);
+			if ((currentTime - prevTime) % fixatePhase == 6){
 				fixateState = 2;
 			}
-			break;
-		case 2:
-			servoTop.write(newTopPos - 50);
-			if ((currentTime - prevTime) % fixatePhase == 2){
-				fixateState = 3;
+		case 2: //move around that point!
+			servoTop.write(newTopPos + 20);
+			if ((currentTime - prevTime) % fixatePhase == 6){
+				fixateState = 1;
 			}
-			break;
-		case 3:
-			servoTop.write(newTopPos);
-			break;
 	}
 
 	if (currentTime - prevTime >= fixateDuration){ //done staring? return to the default state
