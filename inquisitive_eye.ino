@@ -12,8 +12,8 @@
 #define servoBottomStop 90
 #define servoBottomLeft 86
 
-#define moveLow 100 //lower and upper limits for move duration
-#define moveHigh 800
+#define moveLow 800 //lower and upper limits for move duration
+#define moveHigh 1500
 
 #define fixateLow 2500 //lower and upper limits for staring duration
 #define fixateHigh 4000
@@ -25,7 +25,6 @@
 #define potTop A0 //just for manual control
 #define potBottom A1
 
-#define led 13 //because you never know when you might want to debug
 
 // ------- LED VARIABLES ---------
 unsigned int red;
@@ -33,8 +32,8 @@ unsigned int green;
 unsigned int blue;
 bool goingUp = true;
 
-const int greenLEDPin = 9;    // LED connected to digital pin 9
-const int redLEDPin = 10;     // LED connected to digital pin 10
+const int redLEDPin = 9;     // LED connected to digital pin 10
+const int greenLEDPin = 10;    // LED connected to digital pin 9
 const int blueLEDPin = 11;    // LED connected to digital pin 11
 
 int var = 0;
@@ -61,9 +60,9 @@ void setup() {
   pinMode(redLEDPin, OUTPUT);
   pinMode(blueLEDPin, OUTPUT);
 
-  red = 124;
-  green = 124;
-  blue = 124;
+  red = 150;
+  green = 200;
+  blue = 10;
 
 
 // ----- SERVO STUFF -----
@@ -99,22 +98,30 @@ void loop() {
 		default: //normal behaviour as usual
 			move();
 			gentlePulsate();
+			// ledTest();
+			delay(10);
 			break;
 	}
+}
+void ledTest() {
+	analogWrite(redLEDPin, red);
+	analogWrite(greenLEDPin, green);
+	analogWrite(blueLEDPin, blue);
+
 }
 
 void gentlePulsate(){
 
-	if (goingUp && red < 254){
-		red += 1;
+	if ((goingUp == true) && (blue < 200) && (millis() % 20 == 0)){
+		blue += 1;
 		green += 1;
 		blue += 1;
 
-	} else if (goingUp) {
+	} else if ((goingUp == true) && (blue >= 200)) {
 		goingUp = false;
 
-	} else if (goingUp == false && red > 1) {
-		red -= 1;
+	} else if ((goingUp == false) && (blue >= 2) && (millis() % 20 == 0)) {
+		blue -= 1;
 		green -= 1;
 		blue -= 1;
 
@@ -128,6 +135,10 @@ void gentlePulsate(){
 }
 
 void focusFlash(){
+	red = 180;
+	blue = 50;
+	green = 50;
+
 	analogWrite(redLEDPin, red);
 	analogWrite(greenLEDPin, green);
 	analogWrite(blueLEDPin, blue);
