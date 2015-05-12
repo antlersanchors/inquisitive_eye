@@ -27,6 +27,18 @@
 
 #define led 13 //because you never know when you might want to debug
 
+// ------- LED VARIABLES ---------
+unsigned int red;
+unsigned int green;
+unsigned int blue;
+bool goingUp = true;
+
+const int greenLEDPin = 9;    // LED connected to digital pin 9
+const int redLEDPin = 10;     // LED connected to digital pin 10
+const int blueLEDPin = 11;    // LED connected to digital pin 11
+
+int var = 0;
+
 long currentTime;
 long prevTime;
 int moveDuration;
@@ -42,12 +54,22 @@ Servo servoTop;
 Servo servoBottom;
 
 void setup() {
-  pinMode(led, OUTPUT);
+  Serial.begin(9600);
 
+// ----- LED STUFF -----
+  pinMode(greenLEDPin, OUTPUT);
+  pinMode(redLEDPin, OUTPUT);
+  pinMode(blueLEDPin, OUTPUT);
+
+  red = 124;
+  green = 124;
+  blue = 124;
+
+
+// ----- SERVO STUFF -----
   servoTop.attach(servoTopPin);
   servoBottom.attach(servoBottomPin);
   
-  Serial.begin(9600);
 
   prevTime = millis();
   randomSeed(analogRead(A5)); //initialize our random num generator with noise from the pin!
@@ -71,12 +93,42 @@ void loop() {
 	switch (currentState){
 		case 1: //inquisitiveness triggered!
 			fixate();
+			focusFlash();
 			break;
 
 		default: //normal behaviour as usual
 			move();
+			gentlePulsate();
 			break;
 	}
+}
+
+void gentlePulsate(){
+
+	if (goingUp && red < 254){
+		red += 1;
+		green += 1;
+		blue += 1;
+
+	} else if (goingUp) {
+		goingUp = false;
+	} else if (goingUp == false && red > 1) {
+		red -= 1;
+		green -= 1;
+		blue -= 1;
+	} else {
+		goingUp = true;
+	}
+	
+	analogWrite(redLEDPin, red);
+	analogWrite(greenLEDPin, green);
+	analogWrite(blueLEDPin, blue);
+}
+
+void focusFlash(){
+	analogWrite(redLEDPin, red);
+	analogWrite(greenLEDPin, green);
+	analogWrite(blueLEDPin, blue);
 }
 
 void move(){
