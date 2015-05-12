@@ -8,11 +8,15 @@
 #define servoTopHigh 180 //define the range of the top servo's movement
 #define servoTopLow 0 
 
-#define servoBottomHigh 96 //define the values to push the bottom servo around
-#define servoBottomLow 86
+#define servoBottomRight 96 //define the values to push the bottom servo around
+#define servoBottomStop 90
+#define servoBottomLeft 86
 
 #define moveLow 100 //lower and upper limits for move duration
 #define moveHigh 800
+
+#define topTravelHigh 50 //how far should it increment in one move?
+#define topTravelLow -50
 
 #define potTop A0 //just for manual control
 #define potBottom A1
@@ -22,6 +26,7 @@
 long currentTime;
 long prevTime;
 int moveDuration;
+int bottomState;
 
 Servo servoTop;
 Servo servoBottom;
@@ -37,6 +42,8 @@ void setup() {
   prevTime = millis();
   randomSeed(analogRead(A5); //initialize our random num generator with noise from the pin!
   moveDuration = int(random(moveLow,moveHigh)); //initialize move duration
+
+  bottomState = 
 
 }
 
