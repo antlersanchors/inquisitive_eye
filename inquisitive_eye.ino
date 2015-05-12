@@ -2,8 +2,8 @@
 //i love lamp
 #include <Servo.h>
 
-#define servoTopPin 10
-#define servoBottomPin 11
+#define servoTopPin 6
+#define servoBottomPin 5
 
 #define servoTopHigh 180 //define the range of the top servo's movement
 #define servoTopLow 0 
