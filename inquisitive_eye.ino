@@ -11,21 +11,38 @@
 #define servoBottomHigh 96 //define the values to push the bottom servo around
 #define servoBottomLow 86
 
+#define moveLow 100 //lower and upper limits for move duration
+#define moveHigh 800
+
 #define potTop A0 //just for manual control
 #define potBottom A1
 
 #define led 13 //because you never know when you might want to debug
 
+long currentTime;
+long prevTime;
+int moveDuration;
+
+Servo servoTop;
+Servo servoBottom;
+
 void setup() {
   pinMode(led, OUTPUT);
+
+  servoTop.attach(servoTopPin);
+  servoBottom.attach(servoBottomPin);
   
   Serial.begin(9600);
+
+  prevTime = millis();
+  randomSeed(analogRead(A5); //initialize our random num generator with noise from the pin!
+  moveDuration = int(random(moveLow,moveHigh)); //initialize move duration
 
 }
 
 void loop() {
 
-	switch (state){
+	switch (value){
 		case 1: //inquisitiveness triggered!
 			fixate();
 			break;
@@ -38,6 +55,17 @@ void loop() {
 }
 
 void move(){
+	currentTime = millis();
+
+	if (currentTime - prevTime <= moveDuration) { //have we finished the move yet?
+
+
+	} else { 
+		moveDuration = int(random(moveLow,moveHigh)); //new duration of the next move sequence
+		prevTime = millis();
+
+	}
+
 	// for a random duration
 	// move along a path
 	// oscillate?
